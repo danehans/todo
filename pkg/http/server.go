@@ -27,7 +27,14 @@ func NewServer(config *Config) *Server {
 func (s *Server) HTTPHandler() http.Handler {
 	mux := http.NewServeMux()
 
-	// todo index
-	mux.Handle("/", s.logRequest(indexHandler()))
+	chain := func(next ContextHandler) http.Handler {
+		return s.logRequest(NewHandler(next))
+	}
+
+	// server index
+	mux.Handle("/", s.logRequest(s.indexHandler()))
+	// todo handler
+	mux.Handle("/todos", chain(s.todosHandler()))
+	mux.Handle("/todos/{todoId}", chain(s.listTodo()))
 	return mux
 }

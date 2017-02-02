@@ -1,13 +1,15 @@
 package http
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 )
 
-func indexHandler() http.Handler {
+// indexHandler returns a handler that responds with the string "Welcome".
+func (s *Server) indexHandler() http.Handler {
 	fn := func(w http.ResponseWriter, req *http.Request) {
-		fmt.Fprintf(w, "Todo Server Index\n")
+		fmt.Fprintf(w, "Welcome\n")
 	}
 	return http.HandlerFunc(fn)
 }
@@ -19,4 +21,20 @@ func (s *Server) logRequest(next http.Handler) http.Handler {
 		next.ServeHTTP(w, req)
 	}
 	return http.HandlerFunc(fn)
+}
+
+// todoHandler returns a handler that responds with a string "Todo Index".
+func (s *Server) todosHandler() ContextHandler {
+	fn := func(ctx context.Context, w http.ResponseWriter, req *http.Request) {
+		fmt.Fprintf(w, "Todo Index\n")
+	}
+	return ContextHandlerFunc(fn)
+}
+
+// todoHandler returns a handler that responds with a string "Todo Index".
+func (s *Server) listTodo() ContextHandler {
+	fn := func(ctx context.Context, w http.ResponseWriter, req *http.Request) {
+		fmt.Fprintf(w, "Todo Index\n")
+	}
+	return ContextHandlerFunc(fn)
 }

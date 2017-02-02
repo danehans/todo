@@ -1,4 +1,4 @@
-// from: http://thenewstack.io/make-a-restful-json-api-go/
+// Based on: http://thenewstack.io/make-a-restful-json-api-go/
 /* curl commands
 
 $ curl http://localhost:8080/todos

@@ -12,11 +12,12 @@ var todos types.Todos
 
 // Give us some seed data
 func init() {
-	StoreCreateTodo(types.Todo{Name: "Write presentation"})
-	StoreCreateTodo(types.Todo{Name: "Host meetup"})
+	CreateTodo(types.Todo{Name: "Write presentation"})
+	CreateTodo(types.Todo{Name: "Host meetup"})
 }
 
-func StoreFindTodo(id int) types.Todo {
+// ListTodo takes a todo id and returns the associated todo.
+func ListTodo(id int) types.Todo {
 	for _, t := range todos {
 		if t.Id == id {
 			return t
@@ -26,14 +27,17 @@ func StoreFindTodo(id int) types.Todo {
 	return types.Todo{}
 }
 
-func StoreCreateTodo(t types.Todo) types.Todo {
+// CreateTodo takes a todo and creates an instance of a todo,
+// including the todo id.
+func CreateTodo(t types.Todo) types.Todo {
 	currentId = currentId + 1
 	t.Id = currentId
 	todos = append(todos, t)
 	return t
 }
 
-func RepoDestroyTodo(id int) error {
+// DeleteTodo removes a todo by id from the list of todo's.
+func DeleteTodo(id int) error {
 	for i, t := range todos {
 		if t.Id == id {
 			todos = append(todos[:i], todos[i+1:]...)
