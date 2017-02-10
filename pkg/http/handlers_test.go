@@ -1,14 +1,15 @@
 package http
 
 import (
+	"github.com/Sirupsen/logrus"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"github.com/Sirupsen/logrus"
 )
 
 const succeed = "\u2713"
 const failed = "\u2717"
+
 var (
 	// Defaults to info logging
 	log = logrus.New()
@@ -39,7 +40,7 @@ func TestHandlers(t *testing.T) {
 		httpServer := NewServer(config)
 		router := httpServer.HTTPHandler()
 		t.Logf("\tVerify the %s Get call", tt.name)
-		router.ServeHTTP(w,r)
+		router.ServeHTTP(w, r)
 
 		if w.Code == tt.statusCode {
 			t.Logf("\t%s Verify the return code", succeed)

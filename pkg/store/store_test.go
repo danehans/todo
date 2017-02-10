@@ -7,12 +7,10 @@ import (
 	"testing"
 )
 
-var testTodo types.Todo
-
 const succeed = "\u2713"
 const failed = "\u2717"
 
-var id int
+var currentStoredID int
 
 func TestCreateRepo(t *testing.T) {
 
@@ -20,15 +18,15 @@ func TestCreateRepo(t *testing.T) {
 	t.Logf("Testing Repo")
 	t.Logf("\tTesting creating a repo")
 	createdTodo := store.CreateTodo(testTodo)
-	id = createdTodo.Id
+	currentStoredID = createdTodo.Id
 
-	if id == 0 {
+	if currentStoredID == 0 {
 		t.Errorf("\t%s testTodo id not incremented", failed)
 	} else {
 		t.Logf("\t%s ToDo was created", succeed)
 	}
 
-	storedTodo := store.ListTodo(id)
+	storedTodo := store.ListTodo(currentStoredID)
 	if storedTodo.Name != testTodo.Name {
 		t.Errorf("\t%s testTodo name does not match", failed)
 	} else {
@@ -41,12 +39,12 @@ func TestDeleteRepo(t *testing.T) {
 
 	t.Logf("\tTesting deleting a repo")
 
-	if store.DeleteTodo(id) != nil {
+	if store.DeleteTodo(currentStoredID) != nil {
 		t.Errorf("\t%s Error deleting Todo")
 	} else {
 		t.Logf("\t%s ToDo was deleted", succeed)
 	}
-	storedTodo := store.ListTodo(id)
+	storedTodo := store.ListTodo(currentStoredID)
 	if storedTodo.Name != "" {
 		t.Errorf("\t%s StoredTodo name not empty", failed)
 	} else {
